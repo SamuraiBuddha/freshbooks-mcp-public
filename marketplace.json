@@ -1,0 +1,91 @@
+{
+  "app": {
+    "name": "Claude AI Assistant for FreshBooks",
+    "version": "1.0.0",
+    "description": "Control FreshBooks with natural language through Claude Desktop",
+    "category": "Productivity",
+    "subcategory": "AI/Automation",
+    "website": "https://freshbooks-mcp.com",
+    "support_email": "support@ehrigconsulting.com",
+    "documentation": "https://github.com/yourusername/freshbooks-mcp/docs"
+  },
+  "developer": {
+    "name": "Ehrig BIM & IT Consultation, Inc.",
+    "website": "https://ehrigconsulting.com",
+    "email": "info@ehrigconsulting.com",
+    "country": "United States"
+  },
+  "technical": {
+    "platform": [
+      "Windows"
+    ],
+    "languages": [
+      "Python"
+    ],
+    "integration_type": "OAuth 2.0",
+    "api_version": "v2",
+    "hosting": "Local (on-premise)",
+    "requires": [
+      "Claude Desktop",
+      "FreshBooks Account"
+    ]
+  },
+  "oauth": {
+    "redirect_uri": "https://localhost:8090/callback",
+    "scopes": "all"
+  },
+  "pricing": {
+    "model": "Freemium",
+    "trial_period": 30,
+    "plans": [
+      {
+        "name": "Trial",
+        "price": 0,
+        "period": "30 days",
+        "features": "10 commands, 100 uses/month"
+      },
+      {
+        "name": "Pro Monthly",
+        "price": 9.99,
+        "period": "month",
+        "features": "Unlimited everything"
+      },
+      {
+        "name": "Pro Yearly",
+        "price": 79.99,
+        "period": "year",
+        "features": "Unlimited everything, 33% discount"
+      }
+    ]
+  },
+  "assets": {
+    "logo": "assets/logo.svg",
+    "icon": "assets/icon.ico",
+    "screenshots": [
+      "assets/screenshots/01-main-interface.png",
+      "assets/screenshots/02-natural-language.png",
+      "assets/screenshots/03-invoice-creation.png",
+      "assets/screenshots/04-ai-categorization.png",
+      "assets/screenshots/05-financial-summary.png"
+    ],
+    "demo_video": "https://youtube.com/watch?v=demo"
+  },
+  "metrics": {
+    "commands_available": 20,
+    "success_rate": "100%",
+    "setup_time": "2 minutes",
+    "time_saved": "10+ hours/month"
+  },
+  "keywords": [
+    "AI",
+    "Claude",
+    "natural language",
+    "automation",
+    "productivity",
+    "accounting",
+    "bookkeeping",
+    "invoice",
+    "expense",
+    "financial"
+  ]
+}
