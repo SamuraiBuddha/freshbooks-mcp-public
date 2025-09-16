@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBooks MCP - License Activation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo img {
+            width: 80px;
+            height: 80px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .license-status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .status-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .status-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .trial-badge {
+            background: #ffc107;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .pro-badge {
+            background: #28a745;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .activation-form {
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .key-format {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-activate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-activate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-buy {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-buy:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn-trial {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .features-comparison {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e1e4e8;
+        }
+        
+        .comparison-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .feature-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .feature-name {
+            color: #666;
+        }
+        
+        .feature-trial {
+            color: #ffc107;
+            font-weight: 500;
+        }
+        
+        .feature-pro {
+            color: #28a745;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="35" fill="#667eea"/>
+                <text x="40" y="50" text-anchor="middle" fill="white" font-size="30" font-weight="bold">FB</text>
+            </svg>
+        </div>
+        
+        <h1>FreshBooks MCP</h1>
+        <p class="subtitle">License Activation Center</p>
+        
+        <div class="license-status">
+            <div class="status-row">
+                <span class="status-label">Current Plan:</span>
+                <span class="status-value">
+                    <span id="license-type" class="trial-badge">TRIAL</span>
+                </span>
+            </div>
+            <div class="status-row" id="trial-days-row">
+                <span class="status-label">Days Remaining:</span>
+                <span class="status-value" id="days-remaining">30</span>
+            </div>
+            <div class="status-row" id="api-calls-row">
+                <span class="status-label">API Calls Today:</span>
+                <span class="status-value" id="api-calls">0 / 100</span>
+            </div>
+            <div class="status-row" id="monthly-limits-row">
+                <span class="status-label">Monthly Usage:</span>
+                <span class="status-value" id="monthly-usage">0/5 invoices, 0/10 expenses</span>
+            </div>
+        </div>
+        
+        <div class="activation-form">
+            <div class="form-group">
+                <label for="license-key">License Key</label>
+                <input type="text" id="license-key" placeholder="FBMCP-XXXX-XXXX-XXXX-XXXX">
+                <div class="key-format">Format: FBMCP-XXXX-XXXX-XXXX-XXXX</div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-activate" onclick="activateLicense()">Activate Pro</button>
+                <button class="btn-buy" onclick="purchaseLicense()">Buy License</button>
+            </div>
+            
+            <div id="message" class="message"></div>
+        </div>
+        
+        <div class="features-comparison">
+            <div class="comparison-title">Feature Comparison</div>
+            <div class="feature-row">
+                <span class="feature-name">API Calls</span>
+                <span class="feature-trial">100/day</span>
+                <span class="feature-pro">Unlimited</span>
+            </div>
+            <div class="feature-row">
+                <span class="feature-name">Invoice Creation</span>
+                <span class="feature-trial">5/month</span>
+                <span class="feature-pro">Unlimited</span>
+            </div>
+            <div class="feature-row">
+                <span class="feature-name">Expense Tracking</span>
+                <span class="feature-trial">10/month</span>
+                <span class="feature-pro">Unlimited</span>
+            </div>
+            <div class="feature-row">
+                <span class="feature-name">Payment Recording</span>
+                <span class="feature-trial">❌</span>
+                <span class="feature-pro">✅</span>
+            </div>
+            <div class="feature-row">
+                <span class="feature-name">Time Tracking</span>
+                <span class="feature-trial">❌</span>
+                <span class="feature-pro">✅</span>
+            </div>
+            <div class="feature-row">
+                <span class="feature-name">Recurring Invoices</span>
+                <span class="feature-trial">❌</span>
+                <span class="feature-pro">✅</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function loadLicenseStatus() {
+            try {
+                const response = await fetch('/api/license/status');
+                const data = await response.json();
+                
+                if (data.type === 'pro') {
+                    document.getElementById('license-type').textContent = 'PRO';
+                    document.getElementById('license-type').className = 'pro-badge';
+                    document.getElementById('trial-days-row').style.display = 'none';
+                    document.getElementById('api-calls-row').style.display = 'none';
+                    document.getElementById('monthly-limits-row').style.display = 'none';
+                } else {
+                    document.getElementById('days-remaining').textContent = data.trialDaysRemaining;
+                    document.getElementById('api-calls').textContent = `${data.apiCallsToday} / 100`;
+                    document.getElementById('monthly-usage').textContent = 
+                        `${data.monthlyInvoicesUsed}/5 invoices, ${data.monthlyExpensesUsed}/10 expenses`;
+                }
+            } catch (error) {
+                console.error('Failed to load license status:', error);
+            }
+        }
+        
+        async function activateLicense() {
+            const key = document.getElementById('license-key').value.trim();
+            const messageEl = document.getElementById('message');
+            
+            if (!key) {
+                showMessage('Please enter a license key', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/license/activate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showMessage('License activated successfully! Restarting application...', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    showMessage(data.error || 'Invalid license key', 'error');
+                }
+            } catch (error) {
+                showMessage('Activation failed: ' + error.message, 'error');
+            }
+        }
+        
+        function purchaseLicense() {
+            window.open('https://freshbooks-mcp.com/purchase', '_blank');
+        }
+        
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Load status on page load
+        loadLicenseStatus();
+        
+        // Auto-refresh status every 30 seconds
+        setInterval(loadLicenseStatus, 30000);
+    </script>
+</body>
+</html>

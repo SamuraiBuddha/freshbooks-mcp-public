@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FreshBooks MCP - Initial Setup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .setup-wizard {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 30px; }
+        .step { display: none; }
+        .step.active { display: block; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .help-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="setup-wizard">
+        <h1>Welcome to FreshBooks MCP</h1>
+        <p class="subtitle">Let's get you connected to FreshBooks</p>
+        
+        <!-- Step 1: FreshBooks Credentials -->
+        <div class="step active" id="step1">
+            <h2>Step 1: FreshBooks API Credentials</h2>
+            
+            <div class="info-box">
+                <strong>How to get your credentials:</strong>
+                <ol>
+                    <li>Log in to FreshBooks</li>
+                    <li>Go to Settings → Developer Apps</li>
+                    <li>Click "Create New App"</li>
+                    <li>Set Redirect URI to: <code>https://localhost:8080/callback</code></li>
+                    <li>Copy the Client ID and Secret</li>
+                </ol>
+            </div>
+            
+            <div class="form-group">
+                <label>Client ID</label>
+                <input type="text" id="client_id" placeholder="Enter your FreshBooks Client ID">
+                <div class="help-text">Found in FreshBooks Developer Apps</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Client Secret</label>
+                <input type="password" id="client_secret" placeholder="Enter your FreshBooks Client Secret">
+                <div class="help-text">Keep this secure - it won't be shown again</div>
+            </div>
+            
+            <button class="btn-primary" onclick="saveCredentials()">Connect to FreshBooks</button>
+        </div>
+        
+        <!-- Step 2: OAuth Authorization -->
+        <div class="step" id="step2">
+            <h2>Step 2: Authorize Access</h2>
+            <p>A browser window will open to authorize FreshBooks access.</p>
+            <p>Please log in and approve the connection.</p>
+            <button class="btn-primary" onclick="startOAuth()">Authorize Now</button>
+        </div>
+        
+        <!-- Step 3: License Selection -->
+        <div class="step" id="step3">
+            <h2>Step 3: Choose Your Plan</h2>
+            
+            <div class="info-box">
+                <strong>Trial Mode Active</strong><br>
+                You have 30 days of free access with limited features.
+            </div>
+            
+            <h3>Trial Limitations:</h3>
+            <ul>
+                <li>✅ All read operations (view invoices, clients, etc.)</li>
+                <li>✅ Basic reporting</li>
+                <li>❌ No invoice creation</li>
+                <li>❌ No payment recording</li>
+                <li>❌ No automation features</li>
+            </ul>
+            
+            <button class="btn-primary" onclick="startTrial()">Start 30-Day Trial</button>
+            <button class="btn-secondary" onclick="enterLicense()">I Have a License Key</button>
+        </div>
+        
+        <!-- Step 4: Success -->
+        <div class="step" id="step4">
+            <h2>✅ Setup Complete!</h2>
+            <p>FreshBooks MCP is ready to use in Claude Desktop.</p>
+            <p>You can now use natural language commands like:</p>
+            <ul>
+                <li>"Show me all unpaid invoices"</li>
+                <li>"List my clients"</li>
+                <li>"What's my revenue this month?"</li>
+            </ul>
+            <button class="btn-primary" onclick="window.close()">Close Setup</button>
+        </div>
+    </div>
+    
+    <script>
+        async function saveCredentials() {
+            const clientId = document.getElementById('client_id').value;
+            const clientSecret = document.getElementById('client_secret').value;
+            
+            if (!clientId || !clientSecret) {
+                alert('Please enter both Client ID and Secret');
+                return;
+            }
+            
+            // Save to secure storage
+            await fetch('/api/setup/credentials', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ clientId, clientSecret })
+            });
+            
+            showStep('step2');
+        }
+        
+        async function startOAuth() {
+            window.open('/api/oauth/authorize', '_blank');
+            // Poll for completion
+            const checkAuth = setInterval(async () => {
+                const response = await fetch('/api/oauth/status');
+                const data = await response.json();
+                if (data.authenticated) {
+                    clearInterval(checkAuth);
+                    showStep('step3');
+                }
+            }, 1000);
+        }
+        
+        function startTrial() {
+            showStep('step4');
+        }
+        
+        function showStep(stepId) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(stepId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
