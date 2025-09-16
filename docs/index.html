@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBooks MCP - AI-Powered Financial Intelligence for Claude Desktop</title>
+    <meta name="description" content="Control FreshBooks with natural language through Claude Desktop. Automated categorization, bank reconciliation, and financial insights.">
+    
+    <!-- Stripe or Gumroad will be added here -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #4a5568;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .hero-image {
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #2d3748;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .feature-card p {
+            color: #4a5568;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 80px 0;
+            background: #f7fafc;
+        }
+        
+        .pricing h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #2d3748;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border: 3px solid #667eea;
+        }
+        
+        .pricing-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .plan-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .plan-price {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .plan-price span {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .plan-features li:before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">FreshBooks MCP</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li><a href="https://github.com/SamuraiBuddha/freshbooks-mcp-public">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Control FreshBooks with Natural Language</h1>
+                    <p>AI-powered financial intelligence integrated directly into Claude Desktop. Automate categorization, reconciliation, and get instant insights.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary" onclick="startTrial()">Start Free Trial</button>
+                        <a href="#pricing" class="btn btn-secondary">View Pricing</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://via.placeholder.com/600x400/667eea/ffffff?text=FreshBooks+MCP" alt="FreshBooks MCP Dashboard">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Powerful Features for Financial Automation</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Categorization</h3>
+                    <p>95%+ accuracy in transaction categorization using advanced ML models. Learns from your patterns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Bank Reconciliation</h3>
+                    <p>Automated matching with fuzzy logic. Identifies discrepancies and suggests corrections.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Anomaly Detection</h3>
+                    <p>Real-time fraud detection using vector analysis. Protects your financial data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Financial Insights</h3>
+                    <p>Natural language queries for instant answers. Predictive analytics and trend analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>Invoice Processing</h3>
+                    <p>98% accurate OCR extraction. Automatically processes invoices and receipts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Bank-level encryption, OAuth2 authentication, and complete audit trails.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Simple, Transparent Pricing</h2>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3 class="plan-name">Trial</h3>
+                    <div class="plan-price">Free <span>/ 30 days</span></div>
+                    <ul class="plan-features">
+                        <li>10 basic read features</li>
+                        <li>100 API calls/month</li>
+                        <li>10 AI queries</li>
+                        <li>Email support</li>
+                        <li>Basic categorization</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%" onclick="startTrial()">Start Free Trial</button>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3 class="plan-name">Pro</h3>
+                    <div class="plan-price">$9.99 <span>/ month</span></div>
+                    <ul class="plan-features">
+                        <li>All features unlimited</li>
+                        <li>Unlimited API calls</li>
+                        <li>Advanced AI features</li>
+                        <li>Priority support</li>
+                        <li>Bank reconciliation</li>
+                        <li>Custom categories</li>
+                        <li>API access</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%" onclick="subscribe('monthly')">Get Pro Monthly</button>
+                    <p style="text-align: center; margin-top: 15px; color: #4a5568;">
+                        Or save 33% with yearly: <strong>$79.99/year</strong>
+                        <br>
+                        <a href="#" onclick="subscribe('yearly')" style="color: #667eea;">Switch to yearly →</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+                <a href="mailto:support@ehrigconsulting.com">Support</a>
+                <a href="https://github.com/SamuraiBuddha/freshbooks-mcp-public">GitHub</a>
+            </div>
+            <p>&copy; 2025 Ehrig BIM & IT Consultation, Inc. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">Patent Pending - Dynamic Category Recovery System</p>
+        </div>
+    </footer>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Complete Your Purchase</h2>
+            <div id="checkout-form">
+                <!-- Stripe/Gumroad checkout will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        function startTrial() {
+            // For now, direct to download
+            window.location.href = 'https://github.com/SamuraiBuddha/freshbooks-mcp-public/releases';
+        }
+
+        function subscribe(plan) {
+            // This will integrate with your payment processor
+            const prices = {
+                monthly: 'price_xxxxx', // Your Stripe price ID
+                yearly: 'price_yyyyy'   // Your Stripe price ID
+            };
+            
+            // For Gumroad (simpler):
+            if (plan === 'monthly') {
+                window.location.href = 'https://gumroad.com/l/freshbooks-mcp-monthly';
+            } else {
+                window.location.href = 'https://gumroad.com/l/freshbooks-mcp-yearly';
+            }
+            
+            // For Stripe (more complex but professional):
+            // openStripeCheckout(prices[plan]);
+        }
+
+        function openStripeCheckout(priceId) {
+            // Initialize Stripe
+            const stripe = Stripe('pk_live_your_publishable_key');
+            
+            // Create checkout session via your backend
+            fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({priceId: priceId})
+            })
+            .then(res => res.json())
+            .then(session => {
+                stripe.redirectToCheckout({sessionId: session.id});
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
