@@ -52,27 +52,65 @@ Simply type what you want in plain English:
 - 🏦 **"Show credit notes"** - Manage overpayments
 - 📑 **"Generate 1099 report for contractors"** - Tax compliance
 
-## 💫 Key Features
+## 💫 Feature Tiers
 
-### Complete FreshBooks Integration
-- ✅ **45+ API endpoints** fully integrated
-- 📊 **Real-time data sync** with your FreshBooks account
-- 🔄 **Bidirectional operations** - Read and write capabilities
-- 🏦 **Comprehensive coverage** - All major FreshBooks modules
+### 🆓 Free Trial (30 days)
+Perfect for testing and basic bookkeeping needs:
 
-### Core Capabilities (All Available Now)
-- **👥 Client Management** - Full CRUD operations on 33+ active clients
-- **📄 Invoicing** - Create, send, track all invoice statuses
-- **📋 Estimates** - 71% acceptance rate tracking included
-- **💰 Payments** - Record and track payment collection
-- **🧾 Expenses** - 59 categories with tax tracking
-- **📊 Reports** - P&L, Balance Sheet, Cash Flow analysis
-- **⏱️ Time Tracking** - Project-based time entries
-- **🏷️ Item/Service Catalog** - 34+ services with hourly rates
-- **💳 Tax Management** - Multi-jurisdiction support
-- **🔁 Recurring Profiles** - Automated billing setup
-- **💸 Credit Notes** - Overpayment management
-- **👷 Staff Management** - Team permissions and access
+**Read-Only Operations:**
+- 📋 **View Invoices** - See all invoice statuses and amounts
+- 👥 **List Clients** - Access your complete client database
+- 🧾 **View Expenses** - Review expense history and categories
+- 📊 **Basic Reports** - Profit & Loss summaries
+- 💰 **Payment History** - See all recorded payments
+- 📈 **View Estimates** - Track estimate pipeline
+
+**Limited Write Operations:**
+- ✍️ **5 invoices/month** - Create up to 5 new invoices
+- 📝 **10 expenses/month** - Add up to 10 expense entries
+- 📧 **Export to CSV** - Download your data anytime
+
+**Usage Limits:**
+- 100 API calls per day
+- 30-day trial period
+- Basic email support
+
+### 💎 Pro Version ($9.99/mo or $79.99/yr - Save 33%)
+Unlock full automation and unlimited access:
+
+**Unlimited Everything from Trial, Plus:**
+
+**Advanced Write Operations:**
+- 📄 **Unlimited Invoicing** - Create, edit, send invoices
+- 💸 **Payment Recording** - Track all payment types
+- 🧾 **Expense Management** - Full expense CRUD with categorization
+- 📋 **Estimate Creation** - Generate and convert estimates
+- 🔄 **Bulk Operations** - Update multiple records at once
+
+**Automation & Advanced Features:**
+- 🔁 **Recurring Invoices** - Set up automated billing
+- 💳 **Tax Management** - Configure multi-jurisdiction taxes
+- 📊 **Advanced Reports** - Cash flow, balance sheets, custom reports
+- ⏱️ **Time Tracking** - Log billable hours to projects
+- 📁 **Project Management** - Create and manage projects
+- 💸 **Credit Notes** - Handle overpayments and refunds
+- 👷 **Staff Management** - Multi-user access control
+
+**Pro Benefits:**
+- ♾️ **Unlimited API calls**
+- 🚀 **Priority support** (4-hour response)
+- 🎯 **AI Categorization** - Auto-categorize expenses
+- 📈 **Trend Analysis** - Financial insights and forecasting
+- 🔐 **Advanced Security** - Additional encryption layers
+- 🎓 **Training Videos** - Exclusive tutorials
+
+### 🏢 Enterprise (Custom Pricing)
+For agencies and larger teams:
+- **Multi-company support** - Manage multiple FreshBooks accounts
+- **Custom integrations** - Tailored to your workflow
+- **Dedicated support** - Direct phone/Slack access
+- **SLA guarantee** - 99.9% uptime commitment
+- **Custom training** - Onboarding for your team
 
 ## 📦 Installation
 

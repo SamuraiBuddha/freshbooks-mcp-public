@@ -1,6 +1,11 @@
 # FreshBooks MCP - Complete Command Reference
 
-## =� Table of Contents
+## 🎯 Feature Tiers
+- 🆓 **Trial**: Available in free 30-day trial (read-only + limited writes)
+- 💎 **Pro**: Requires Pro subscription ($9.99/mo or $79.99/yr)
+- 🏢 **Enterprise**: Custom pricing for multi-company support
+
+## 📋 Table of Contents
 - [Client Management](#client-management)
 - [Invoicing](#invoicing)
 - [Estimates](#estimates)
@@ -14,7 +19,8 @@
 
 ## Client Management
 
-### read_clients
+### read_clients 🆓
+**Tier:** Trial  
 **Description:** List all clients with optional filtering  
 **Parameters:**
 - `active_only` (boolean, optional): Show only active clients (default: true)
@@ -26,7 +32,8 @@
 "Find clients in Florida"
 ```
 
-### write_client
+### write_client 💎
+**Tier:** Pro  
 **Description:** Create or update a client  
 **Parameters:**
 - `organization` (string, required): Company name
@@ -43,7 +50,8 @@
 
 ## Invoicing
 
-### read_invoices
+### read_invoices 🆓
+**Tier:** Trial  
 **Description:** List all invoices with optional status filtering  
 **Parameters:**
 - `status` (string, optional): Filter by status
@@ -56,7 +64,8 @@
 "Find all draft invoices"
 ```
 
-### write_invoice
+### write_invoice 🆓/💎
+**Tier:** Trial (5/month) | Pro (unlimited)  
 **Description:** Create a new invoice  
 **Parameters:**
 - `client_id` (integer, required): Client ID
@@ -72,7 +81,8 @@
 
 ## Estimates
 
-### read_estimates
+### read_estimates 🆓
+**Tier:** Trial  
 **Description:** List all estimates  
 **Parameters:** None
 
@@ -83,7 +93,8 @@
 "Find accepted estimates not yet invoiced"
 ```
 
-### write_estimate
+### write_estimate 💎
+**Tier:** Pro  
 **Description:** Create a new estimate  
 **Parameters:**
 - `client_id` (integer, required): Client ID
@@ -99,7 +110,8 @@
 
 ## Expenses
 
-### read_expenses
+### read_expenses 🆓
+**Tier:** Trial  
 **Description:** List all expenses with date filtering  
 **Parameters:**
 - `date_from` (date, optional): Start date (format: YYYY-MM-DD)
@@ -112,7 +124,8 @@
 "What did I spend last quarter?"
 ```
 
-### write_expense
+### write_expense 🆓/💎
+**Tier:** Trial (10/month) | Pro (unlimited)  
 **Description:** Create a new expense  
 **Parameters:**
 - `amount` (number, required): Expense amount
@@ -129,7 +142,8 @@
 
 ## Payments
 
-### read_payments
+### read_payments 🆓
+**Tier:** Trial  
 **Description:** List all payments  
 **Parameters:** None
 
@@ -139,7 +153,8 @@
 "List payments this month"
 ```
 
-### write_payment
+### write_payment 💎
+**Tier:** Pro  
 **Description:** Record a payment  
 **Parameters:**
 - `invoice_id` (integer, required): Invoice ID
@@ -156,7 +171,8 @@
 
 ## Reports
 
-### read_reports
+### read_reports 🆓
+**Tier:** Trial (basic) | Pro (advanced)  
 **Description:** Get financial reports  
 **Parameters:**
 - `report_type` (string, optional): Type of report
@@ -173,7 +189,8 @@
 
 ## Time Tracking
 
-### read_time_entries
+### read_time_entries 🆓
+**Tier:** Trial  
 **Description:** List all time entries  
 **Parameters:** None
 
@@ -183,7 +200,8 @@
 "List hours logged this week"
 ```
 
-### write_time_entry
+### write_time_entry 💎
+**Tier:** Pro  
 **Description:** Create a time entry  
 **Parameters:**
 - `client_id` (integer, required): Client ID
@@ -199,7 +217,8 @@
 
 ## Projects
 
-### read_projects
+### read_projects 🆓
+**Tier:** Trial  
 **Description:** List all projects  
 **Parameters:** None
 
@@ -209,7 +228,8 @@
 "List active projects"
 ```
 
-### write_project
+### write_project 💎
+**Tier:** Pro  
 **Description:** Create a new project  
 **Parameters:**
 - `title` (string, required): Project title
@@ -224,7 +244,8 @@
 
 ## Services & Items
 
-### read_items
+### read_items 🆓
+**Tier:** Trial  
 **Description:** List all services/items  
 **Parameters:** None
 
@@ -235,7 +256,8 @@
 "What are my hourly rates?"
 ```
 
-### write_item
+### write_item 💎
+**Tier:** Pro  
 **Description:** Create a new billable item  
 **Parameters:**
 - `name` (string, required): Item name
@@ -253,11 +275,13 @@
 
 ### Categories
 
-#### read_categories
+#### read_categories 🆓
+**Tier:** Trial  
 **Description:** List expense categories  
 **Example:** `"Show expense categories"`
 
-#### write_category
+#### write_category 💎
+**Tier:** Pro  
 **Description:** Create expense category  
 **Parameters:**
 - `name` (string, required): Category name
@@ -266,11 +290,13 @@
 
 ### Taxes
 
-#### read_taxes
+#### read_taxes 🆓
+**Tier:** Trial  
 **Description:** List all taxes  
 **Example:** `"Show tax configurations"`
 
-#### write_tax
+#### write_tax 💎
+**Tier:** Pro  
 **Description:** Create a new tax  
 **Parameters:**
 - `name` (string, required): Tax name
@@ -279,11 +305,13 @@
 
 ### Recurring Invoices
 
-#### read_recurring
+#### read_recurring 💎
+**Tier:** Pro  
 **Description:** List recurring invoice profiles  
 **Example:** `"Show recurring invoices"`
 
-#### write_recurring
+#### write_recurring 💎
+**Tier:** Pro  
 **Description:** Create recurring invoice profile  
 **Parameters:**
 - `client_id` (integer, required): Client ID
@@ -292,11 +320,13 @@
 
 ### Credit Notes
 
-#### read_credit_notes
+#### read_credit_notes 💎
+**Tier:** Pro  
 **Description:** List credit notes  
 **Example:** `"Show credit notes"`
 
-#### write_credit_note
+#### write_credit_note 💎
+**Tier:** Pro  
 **Description:** Create credit note  
 **Parameters:**
 - `client_id` (integer, required): Client ID
@@ -305,11 +335,13 @@
 
 ### Staff Management
 
-#### read_staff
+#### read_staff 💎
+**Tier:** Pro  
 **Description:** List staff members  
 **Example:** `"Show team members"`
 
-#### write_staff
+#### write_staff 💎
+**Tier:** Pro  
 **Description:** Create staff member  
 **Parameters:**
 - `email` (string, required): Email address
@@ -334,6 +366,22 @@ If a command fails, you'll receive:
 
 ## Rate Limits
 
-- No rate limits on read operations
-- Write operations: Standard FreshBooks API limits apply
-- Bulk operations automatically handled with proper throttling
+### 🆓 Trial Tier
+- **100 API calls per day** across all operations
+- **5 invoices/month** creation limit
+- **10 expenses/month** creation limit
+- **Read-only** for advanced features
+- **30-day** trial period
+
+### 💎 Pro Tier
+- **Unlimited API calls**
+- **Unlimited write operations**
+- **All advanced features** enabled
+- **Bulk operations** with automatic throttling
+- **Priority support** (4-hour response)
+
+### 🏢 Enterprise
+- **Custom rate limits** based on needs
+- **Multi-company support**
+- **Dedicated infrastructure**
+- **SLA guarantees**
