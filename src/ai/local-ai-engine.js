@@ -1,17 +1,20 @@
 // Local AI Engine for FreshBooks MCP
 // Bundled with installer for offline AI capabilities
+// Now with automatic port conflict resolution
 
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs').promises;
 const http = require('http');
+const PortManager = require('./port-manager');
 
 class LocalAIEngine {
     constructor() {
         this.vllmProcess = null;
         this.modelPath = path.join(process.env.ProgramFiles, 'FreshBooksMCP', 'models');
-        this.vllmPort = 8000;
-        this.ollamaPort = 11434;
+        this.portManager = new PortManager();
+        this.vllmPort = 8000;  // Will be dynamically assigned
+        this.ollamaPort = 11434;  // Will be checked for availability
         this.currentBackend = null;
         
         // Models bundled with installer
@@ -42,6 +45,18 @@ class LocalAIEngine {
     }
 
     async initialize() {
+        // Initialize port manager
+        await this.portManager.initialize();
+        
+        // Check for port conflicts and resolve
+        const conflicts = await this.portManager.detectConflicts();
+        if (conflicts.length > 0) {
+            console.log('Port conflicts detected, resolving...');
+            for (const conflict of conflicts) {
+                console.log(`  ${conflict.service} default port ${conflict.port} occupied by ${conflict.occupiedBy}`);
+            }
+        }
+        
         // Check available backends
         const backend = await this.detectBestBackend();
         
@@ -94,6 +109,14 @@ class LocalAIEngine {
 
     async isOllamaInstalled() {
         try {
+            // Check if Ollama port is actually Ollama
+            const ollamaAvailable = await this.portManager.isPortAvailable(this.ollamaPort);
+            if (ollamaAvailable) {
+                // Port is free, Ollama not running
+                return false;
+            }
+            
+            // Port is occupied, check if it's Ollama
             const response = await this.makeRequest('GET', 'localhost', this.ollamaPort, '/');
             return response.includes('Ollama');
         } catch {
@@ -103,6 +126,10 @@ class LocalAIEngine {
 
     async initializeVLLM() {
         console.log('Initializing vLLM with GPU acceleration...');
+        
+        // Allocate port for vLLM
+        this.vllmPort = await this.portManager.allocatePort('vllm', 8000);
+        console.log(`  Allocated port ${this.vllmPort} for vLLM`);
         
         // Start vLLM server with quantized model
         this.vllmProcess = spawn('python', [
@@ -137,6 +164,10 @@ class LocalAIEngine {
 
     async initializeLlamaCpp() {
         console.log('Initializing bundled llama.cpp backend...');
+        
+        // Allocate port for llama.cpp
+        this.vllmPort = await this.portManager.allocatePort('llamacpp', 8080);
+        console.log(`  Allocated port ${this.vllmPort} for llama.cpp`);
         
         const serverPath = path.join(process.env.ProgramFiles, 'FreshBooksMCP', 'bin', 'server.exe');
         const modelFile = path.join(this.modelPath, this.bundledModels['tinyllama-finance'].file);
@@ -356,6 +387,33 @@ Return JSON only:
             this.vllmProcess.kill();
             this.vllmProcess = null;
         }
+        
+        // Release allocated ports
+        if (this.currentBackend === 'vllm') {
+            await this.portManager.releasePort('vllm');
+        } else if (this.currentBackend === 'llama.cpp') {
+            await this.portManager.releasePort('llamacpp');
+        }
+    }
+
+    async getPortStatus() {
+        return await this.portManager.getPortsStatus();
+    }
+
+    async resolvePortConflicts() {
+        const suggestions = await this.portManager.suggestPortConfiguration();
+        
+        if (Object.keys(suggestions).length > 0) {
+            console.log('\n=== Port Conflict Resolution ===');
+            for (const [service, suggestion] of Object.entries(suggestions)) {
+                console.log(`\n${service}:`);
+                console.log(`  Default port ${suggestion.currentDefault} is occupied by: ${suggestion.occupiedBy}`);
+                console.log(`  Suggested alternative: ${suggestion.suggestedPort}`);
+            }
+            console.log('\n================================\n');
+        }
+        
+        return suggestions;
     }
 }
 
