@@ -1,119 +1,339 @@
-# FreshBooks MCP Commands Reference
+# FreshBooks MCP - Complete Command Reference
 
-## Free Trial Commands (10)
+## =Ú Table of Contents
+- [Client Management](#client-management)
+- [Invoicing](#invoicing)
+- [Estimates](#estimates)
+- [Expenses](#expenses)
+- [Payments](#payments)
+- [Reports](#reports)
+- [Time Tracking](#time-tracking)
+- [Projects](#projects)
+- [Services & Items](#services--items)
+- [Advanced Features](#advanced-features)
 
-### 1. List Clients
-```
-"Show my clients"
-"List all customers"
-"Who are my clients?"
-```
+## Client Management
 
-### 2. List Invoices
-```
-"Show unpaid invoices"
-"List recent invoices"
-"What invoices are overdue?"
-```
+### read_clients
+**Description:** List all clients with optional filtering  
+**Parameters:**
+- `active_only` (boolean, optional): Show only active clients (default: true)
 
-### 3. List Expenses
+**Example:**
 ```
-"Show this month's expenses"
-"List recent expenses"
-"What did I spend on?"
-```
-
-### 4. List Payments
-```
-"Show recent payments"
-"What payments came in?"
-"List received payments"
+"Show me all my clients"
+"List inactive clients"
+"Find clients in Florida"
 ```
 
-### 5. Get Business Details
+### write_client
+**Description:** Create or update a client  
+**Parameters:**
+- `organization` (string, required): Company name
+- `fname` (string, optional): First name
+- `lname` (string, optional): Last name
+- `email` (string, optional): Email address
+- `phone` (string, optional): Phone number
+
+**Example:**
 ```
-"Show my business info"
-"What's my company details?"
+"Add Acme Corp as a new client with email contact@acme.com"
+"Update Phillips & Jordan phone to 407-555-1234"
 ```
 
-### 6. List Tax Rates
+## Invoicing
+
+### read_invoices
+**Description:** List all invoices with optional status filtering  
+**Parameters:**
+- `status` (string, optional): Filter by status
+  - Options: draft, sent, viewed, paid, overdue, partial, disputed
+
+**Example:**
 ```
-"Show tax rates"
-"What taxes are configured?"
+"Show me unpaid invoices"
+"List overdue invoices"
+"Find all draft invoices"
 ```
 
-### 7. List Items/Services
+### write_invoice
+**Description:** Create a new invoice  
+**Parameters:**
+- `client_id` (integer, required): Client ID
+- `amount` (number, required): Invoice amount
+- `description` (string, optional): Invoice description
+- `due_days` (integer, optional): Days until due (default: 30)
+
+**Example:**
 ```
-"Show my services"
-"List my products"
-"What do I sell?"
+"Create a $5000 invoice for client 12345"
+"Generate invoice for BIM modeling services, $2500, due in 15 days"
 ```
 
-### 8. List Projects
+## Estimates
+
+### read_estimates
+**Description:** List all estimates  
+**Parameters:** None
+
+**Example:**
 ```
-"Show active projects"
-"List my projects"
+"Show all estimates"
+"List pending estimates"
+"Find accepted estimates not yet invoiced"
 ```
 
-### 9. List Time Entries
+### write_estimate
+**Description:** Create a new estimate  
+**Parameters:**
+- `client_id` (integer, required): Client ID
+- `amount` (number, required): Estimate amount
+- `description` (string, optional): Estimate description
+- `valid_days` (integer, optional): Days valid (default: 30)
+
+**Example:**
 ```
-"Show time tracking"
-"List hours worked"
+"Create $10,000 estimate for Hensel Phelps"
+"Generate estimate for clash detection services, $3500"
 ```
 
-### 10. Financial Summary
+## Expenses
+
+### read_expenses
+**Description:** List all expenses with date filtering  
+**Parameters:**
+- `date_from` (date, optional): Start date (format: YYYY-MM-DD)
+- `date_to` (date, optional): End date (format: YYYY-MM-DD)
+
+**Example:**
 ```
-"Show financial summary"
-"What's my revenue?"
-"How much did I make?"
+"Show expenses for January 2024"
+"List all expenses from 2024-01-01 to 2024-12-31"
+"What did I spend last quarter?"
 ```
 
-## Pro Commands (All 20+)
+### write_expense
+**Description:** Create a new expense  
+**Parameters:**
+- `amount` (number, required): Expense amount
+- `vendor` (string, required): Vendor name
+- `category_id` (integer, optional): Category ID
+- `date` (date, optional): Expense date
+- `notes` (string, optional): Additional notes
 
-### Creating Records
+**Example:**
 ```
-"Create invoice for ABC Company for $5000"
-"Add new client Tech Startup Inc"
-"Record expense $47.50 for office supplies"
-"Log payment of $1000 from John Doe"
-```
-
-### Advanced Analytics (AI-Powered)
-```
-"Categorize last month's expenses"
-"Analyze financial trends"
-"Predict next month's cashflow"
-"Generate invoice for consulting work"
+"Add $47.50 office supplies expense from Staples"
+"Record $1200 contractor payment to John Doe"
 ```
 
-### Updating Records
+## Payments
+
+### read_payments
+**Description:** List all payments  
+**Parameters:** None
+
+**Example:**
 ```
-"Update invoice #1234 to $6000"
-"Mark invoice #1234 as paid"
-"Change client email to new@email.com"
+"Show all payments received"
+"List payments this month"
 ```
 
-### Deleting Records
+### write_payment
+**Description:** Record a payment  
+**Parameters:**
+- `invoice_id` (integer, required): Invoice ID
+- `amount` (number, required): Payment amount
+- `date` (date, optional): Payment date
+- `payment_type` (string, optional): Type (default: Cash)
+- `note` (string, optional): Payment note
+
+**Example:**
 ```
-"Delete draft invoice #1234"
-"Remove test client"
+"Record $5000 payment for invoice 1234"
+"Log ACH payment of $2500 received today"
 ```
 
-## Tips for Best Results
+## Reports
 
-1. **Be specific with amounts**: Use numbers like "$500" or "500 dollars"
-2. **Include client names**: "Create invoice for ABC Corp" not just "Create invoice"
-3. **Use natural language**: Write like you're talking to an assistant
-4. **Specify time periods**: "this month", "last quarter", "2024"
+### read_reports
+**Description:** Get financial reports  
+**Parameters:**
+- `report_type` (string, optional): Type of report
+  - Options: profitloss, balancesheet, cashflow
+- `start_date` (date, optional): Report start date
+- `end_date` (date, optional): Report end date
+
+**Example:**
+```
+"Show profit and loss for 2024"
+"Generate Q1 2024 financial report"
+"What's my cash flow this month?"
+```
+
+## Time Tracking
+
+### read_time_entries
+**Description:** List all time entries  
+**Parameters:** None
+
+**Example:**
+```
+"Show my time entries"
+"List hours logged this week"
+```
+
+### write_time_entry
+**Description:** Create a time entry  
+**Parameters:**
+- `client_id` (integer, required): Client ID
+- `duration_seconds` (integer, required): Duration in seconds
+- `started_at` (string, optional): Start time
+- `note` (string, optional): Description
+
+**Example:**
+```
+"Log 3 hours for client 12345"
+"Track 90 minutes of BIM modeling work"
+```
+
+## Projects
+
+### read_projects
+**Description:** List all projects  
+**Parameters:** None
+
+**Example:**
+```
+"Show all projects"
+"List active projects"
+```
+
+### write_project
+**Description:** Create a new project  
+**Parameters:**
+- `title` (string, required): Project title
+- `client_id` (integer, required): Client ID
+- `description` (string, optional): Project description
+
+**Example:**
+```
+"Create Airport BIM project for Hensel Phelps"
+"Start new project: MEP Coordination"
+```
+
+## Services & Items
+
+### read_items
+**Description:** List all services/items  
+**Parameters:** None
+
+**Example:**
+```
+"Show my service catalog"
+"List all billable items"
+"What are my hourly rates?"
+```
+
+### write_item
+**Description:** Create a new billable item  
+**Parameters:**
+- `name` (string, required): Item name
+- `unit_cost` (number, required): Price/rate
+- `description` (string, optional): Item description
+- `qty` (integer, optional): Quantity (default: 1)
+
+**Example:**
+```
+"Add BIM Modeling service at $150/hour"
+"Create Clash Detection service for $125/hour"
+```
+
+## Advanced Features
+
+### Categories
+
+#### read_categories
+**Description:** List expense categories  
+**Example:** `"Show expense categories"`
+
+#### write_category
+**Description:** Create expense category  
+**Parameters:**
+- `name` (string, required): Category name
+- `parent_id` (integer, optional): Parent category
+- `is_cogs` (boolean, optional): Cost of goods sold
+
+### Taxes
+
+#### read_taxes
+**Description:** List all taxes  
+**Example:** `"Show tax configurations"`
+
+#### write_tax
+**Description:** Create a new tax  
+**Parameters:**
+- `name` (string, required): Tax name
+- `tax_number` (string, required): Tax number
+- `amount` (number, required): Tax rate
+
+### Recurring Invoices
+
+#### read_recurring
+**Description:** List recurring invoice profiles  
+**Example:** `"Show recurring invoices"`
+
+#### write_recurring
+**Description:** Create recurring invoice profile  
+**Parameters:**
+- `client_id` (integer, required): Client ID
+- `frequency` (string, required): Frequency
+- `amount` (number, required): Amount
+
+### Credit Notes
+
+#### read_credit_notes
+**Description:** List credit notes  
+**Example:** `"Show credit notes"`
+
+#### write_credit_note
+**Description:** Create credit note  
+**Parameters:**
+- `client_id` (integer, required): Client ID
+- `amount` (number, required): Credit amount
+- `notes` (string, optional): Notes
+
+### Staff Management
+
+#### read_staff
+**Description:** List staff members  
+**Example:** `"Show team members"`
+
+#### write_staff
+**Description:** Create staff member  
+**Parameters:**
+- `email` (string, required): Email address
+- `fname` (string, optional): First name
+- `lname` (string, optional): Last name
+- `role` (string, optional): Role
+
+## Usage Tips
+
+1. **Natural Language**: Commands can be expressed naturally - Claude will interpret your intent
+2. **Chaining**: Combine multiple commands in one request for complex workflows
+3. **Filtering**: Most read commands support filtering - just describe what you want
+4. **Dates**: Use natural language like "last month" or specific dates like "2024-01-15"
+5. **Context**: Claude remembers previous commands in the conversation for follow-ups
 
 ## Error Handling
 
-If a command doesn't work:
-1. Check your internet connection
-2. Ensure you're logged into FreshBooks
-3. Verify you have permission for that action
-4. Try rephrasing the command
+If a command fails, you'll receive:
+- Clear error message explaining what went wrong
+- Suggested fixes or alternative commands
+- Required vs optional parameters clarification
 
-## Need Help?
+## Rate Limits
 
-Email support@ehrigconsulting.com with your command and we'll help!
+- No rate limits on read operations
+- Write operations: Standard FreshBooks API limits apply
+- Bulk operations automatically handled with proper throttling
