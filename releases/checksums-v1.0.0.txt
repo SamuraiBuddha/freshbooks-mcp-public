@@ -1,0 +1,10 @@
+FreshBooks MCP v1.0.0 - Release Checksums
+Generated: 2025-10-16 04:33:45
+
+File: freshbooks-mcp-v1.0.0-windows-x64.zip
+Size: 0.06 MB
+SHA256: 7f902a1543e3f22221628a5476932fa2b8952e012f4615a9ad21c9c667b5eb49
+
+Verification:
+  Windows: certutil -hashfile "freshbooks-mcp-v1.0.0-windows-x64.zip" SHA256
+  PowerShell: (Get-FileHash "freshbooks-mcp-v1.0.0-windows-x64.zip" -Algorithm SHA256).Hash

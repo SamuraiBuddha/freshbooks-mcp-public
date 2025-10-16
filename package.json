@@ -1,0 +1,64 @@
+{
+  "name": "freshbooks-mcp",
+  "version": "1.0.0",
+  "description": "AI-powered FreshBooks integration for Claude Desktop - Professional accounting automation with advanced AI capabilities",
+  "author": "Ehrig Consulting",
+  "license": "Proprietary",
+  "main": "src/index.js",
+  "type": "module",
+  "keywords": [
+    "freshbooks",
+    "mcp",
+    "claude",
+    "ai",
+    "accounting",
+    "automation",
+    "invoicing",
+    "expense-tracking"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/test-port-conflicts.js && npm run test:unit",
+    "test:unit": "node --test test/unit/*.test.js",
+    "build": "npm run package",
+    "package": "powershell -ExecutionPolicy Bypass -File installer/build-installer.ps1",
+    "bundle-models": "powershell -ExecutionPolicy Bypass -File installer/bundle-ai-models.ps1",
+    "checksums": "powershell -ExecutionPolicy Bypass -File installer/generate-checksums.ps1",
+    "uninstall": "powershell -ExecutionPolicy Bypass -File installer/uninstall.ps1",
+    "validate": "npm run test && npm run checksums",
+    "release": "npm run validate && npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.2.0",
+    "axios": "^1.6.0",
+    "express": "^4.19.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "crypto": "^1.0.1",
+    "fs-extra": "^11.2.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "node-schedule": "^2.1.1",
+    "sqlite3": "^5.1.6",
+    "bcrypt": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ehrigconsulting/freshbooks-mcp-public.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ehrigconsulting/freshbooks-mcp-public/issues",
+    "email": "support@ehrigconsulting.com"
+  },
+  "homepage": "https://ehrigconsulting.com/freshbooks-mcp"
+}

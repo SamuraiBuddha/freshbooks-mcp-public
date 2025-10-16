@@ -1,0 +1,26 @@
+FreshBooks MCP v1.0.0 - Quick Start Guide
+============================================
+
+Installation
+------------
+1. Extract freshbooks-mcp-v1.0.0-windows-x64.zip
+2. Right-click install.ps1 and select "Run with PowerShell"
+3. Follow installation prompts
+
+Verification
+------------
+SHA256: 7f902a1543e3f22221628a5476932fa2b8952e012f4615a9ad21c9c667b5eb49
+
+Verify with:
+  certutil -hashfile "freshbooks-mcp-v1.0.0-windows-x64.zip" SHA256
+
+First Run
+---------
+1. Configure FreshBooks API credentials
+2. Add to Claude Desktop config
+3. Start the MCP server
+
+Support
+-------
+Email: support@ehrigconsulting.com
+GitHub: https://github.com/ehrigconsulting/freshbooks-mcp-public
