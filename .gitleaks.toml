@@ -1,0 +1,40 @@
+# Gitleaks configuration for Tier 3 repos.
+#
+# Extends the default gitleaks ruleset; only adds allowlist entries to
+# suppress known false positives that the baseline ships with.
+#
+# References:
+#   https://github.com/gitleaks/gitleaks#configuration
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "SECURITY.md is the disclosure policy file; the word 'token' / 'secret' / 'API key' in prose triggers generic-api-key but contains no real values."
+paths = [
+  '''^\.github/SECURITY\.md$''',
+  '''^SECURITY\.md$''',
+]
+
+[[allowlists]]
+description = "Templates and examples never contain real secrets."
+paths = [
+  '''(^|/)\.env\.example$''',
+  '''(^|/)\.env\.template$''',
+  '''(^|/)\.env\..+\.example$''',
+]
+
+[[allowlists]]
+description = "Python venv shipped library code uses example PEM / JWT strings in docstrings; never tracked but allowlisted in case it ever lands."
+paths = [
+  '''(^|/)\.venv/''',
+  '''(^|/)venv/''',
+  '''(^|/)node_modules/''',
+]
+
+[[allowlists]]
+description = "Standard CA bundle (public root CAs)."
+paths = [
+  '''(^|/)cacert\.pem$''',
+  '''(^|/)ca-certificates\.pem$''',
+]
