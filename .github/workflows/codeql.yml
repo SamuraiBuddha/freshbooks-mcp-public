@@ -30,7 +30,7 @@ jobs:
         #   "cpp" "csharp" "go" "java-kotlin" "ruby" "rust" "swift" "actions"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Init CodeQL
         uses: github/codeql-action/init@v3
