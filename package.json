@@ -30,7 +30,7 @@
     "release": "npm run validate && npm run build"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.2.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "axios": "^1.6.0",
     "express": "^4.19.0",
     "dotenv": "^16.3.1",
