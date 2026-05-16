@@ -1,0 +1,56 @@
+# Dependabot baseline for Tier 3 repos.
+# Covers npm, pip, cargo, gradle/maven, dockerfile, and github-actions.
+# Weekly schedule keeps signal-to-noise high; switch to daily for repos
+# with high churn or that ship to production.
+version: 2
+updates:
+  # Application dependencies -- include all common ecosystems; Dependabot
+  # silently ignores ecosystems not present in the repo, so this whole
+  # block is safe to ship as-is.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "security"]
+    groups:
+      patch-updates:
+        update-types: ["patch"]
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "security"]
+    groups:
+      patch-updates:
+        update-types: ["patch"]
+
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "security"]
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "security"]
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "security"]
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "ci"]

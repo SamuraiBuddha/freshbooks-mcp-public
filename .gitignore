@@ -29,3 +29,46 @@ logs/
 # Temporary
 *.tmp
 temp/
+
+# Workflow scratch (source archives used to regenerate assets)
+assets/*.zip
+
+# --- security baseline (append to target repo's .gitignore) ---
+
+# Environment files (templates may be tracked: .env.example, .env.template)
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.*.example
+
+# Private keys and certs
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+!cacert.pem
+!*.pub.pem
+
+# Token / credential stores
+*_tokens.json
+credentials.json
+secrets.json
+*.credentials
+
+# OS / IDE / build noise that often contains paths or secrets
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+*.swp
+
+# Coverage / reports that may contain stack traces with sensitive data
+.coverage
+coverage/
+.nyc_output/
+
+# Local config that should not propagate
+*.local.json
+local.*.yaml

@@ -1,0 +1,57 @@
+# Pre-commit hooks for Tier 3 repos.
+# Install:
+#   pip install pre-commit
+#   pre-commit install
+# These run locally before each commit; mirrors what gitleaks.yml does
+# in CI so you find secrets BEFORE pushing.
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+        name: gitleaks (secret scan)
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+
+  # Filename guards -- block accidentally committing things like
+  # localhost.key, .env, *.pfx, etc. Adjust patterns per repo if you
+  # legitimately need to track e.g. a .env.example.
+  - repo: local
+    hooks:
+      - id: forbid-secrets-by-name
+        name: forbid known secret-y filenames
+        entry: |
+          bash -c '
+            failed=0
+            for f in "$@"; do
+              case "$f" in
+                .env|.env.local|.env.production|.env.development)
+                  echo "[blocked] $f looks like a real .env -- use .env.example instead" >&2
+                  failed=1 ;;
+                *.pem|*.key|*.pfx|*.p12|*.jks)
+                  case "$f" in
+                    *cacert.pem|*ca-certificates.pem|*public.pem|*.pub.pem|*example*) ;;
+                    *) echo "[blocked] $f looks like a private key" >&2; failed=1 ;;
+                  esac ;;
+                *_tokens.json|*credentials.json|*secrets.json)
+                  echo "[blocked] $f looks like a token/secret store" >&2; failed=1 ;;
+              esac
+            done
+            exit $failed
+          ' --
+        language: system
+        pass_filenames: true
