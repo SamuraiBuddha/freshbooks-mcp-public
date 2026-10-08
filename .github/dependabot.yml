@@ -1,3 +1,7 @@
+# VERSION-UPDATE PRs DISABLED (open-pull-requests-limit: 0) 2026-10-08.
+# Weekly bumps piled up unmerged (major-version jumps nobody reviewed).
+# Dependabot SECURITY updates are a separate repo setting and still run.
+# To re-enable, raise the limits below.
 # Dependabot baseline for Tier 3 repos.
 # Covers npm, pip, cargo, gradle/maven, dockerfile, and github-actions.
 # Weekly schedule keeps signal-to-noise high; switch to daily for repos
@@ -10,7 +14,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "security"]
     groups:
       patch-updates:
@@ -19,7 +23,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "security"]
     groups:
       patch-updates:
@@ -28,29 +32,29 @@ updates:
   - package-ecosystem: "cargo"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "security"]
 
   - package-ecosystem: "gradle"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "security"]
 
   - package-ecosystem: "maven"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "security"]
 
   - package-ecosystem: "docker"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 0
     labels: ["dependencies", "docker"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule: { interval: "weekly", day: "monday", time: "08:00", timezone: "America/New_York" }
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
     labels: ["dependencies", "ci"]
